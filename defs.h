@@ -121,6 +121,10 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 
+// vm.c
+int             mprotect(void *addr, int len);
+int             munprotect(void *addr, int len);
+
 // swtch.S
 void            swtch(struct context**, struct context*);
 

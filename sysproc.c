@@ -15,9 +15,10 @@ int sys_settickets(void)
     return -1;
   }
 
-  myproc()->ticketnum = ticketnum;
+  struct proc *proc = myproc();
+  proc->ticketnum = ticketnum;
   acquire(&ptable.lock);
-  ptable.proc[myproc()-ptable.proc].ticketnum = ticketnum;
+  ptable.proc[proc-ptable.proc].ticketnum = ticketnum;
   release(&ptable.lock);
   return 0;
 }
@@ -55,24 +56,17 @@ sys_mprotect(void)
   if(argint(0, &addr)<0 || argint(1, &len)<0)
     return -1;
   
-  struct proc *p = myproc();
-  if(addr % PGSIZE != 0) // if addr is not page aligned
-  {
-    return -1;
-  }
-  if(addr+len*PGSIZE>p->sz) // if addr points to a region that is not currently a part of the address space
-  {
-    return -1;
-  }
-  if(len<=0) // if len is less than or equal to zero
-  {
-    return -1;
-  }
+  return mprotect((void *) addr, len);
 }
 
 int sys_munprotect(void)
 {
-  return 0;
+  int addr;
+  int len = 0;
+  if(argint(0, &addr)<0 || argint(1, &len)<0)
+    return -1;
+  
+  return munprotect((void *) addr, len);
 }
 
 int

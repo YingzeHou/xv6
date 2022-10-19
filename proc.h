@@ -50,8 +50,8 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
-  int ticketnum;                // Addition ticket number for lottery scheduler 
-  int ticks;                    // The number of ticks this process has accumulated 
+  int priority;               // Addition ticket number for lottery scheduler 
+  int ticks;                   // The number of ticks this process has accumulated 
 };
 
 // extern struct {

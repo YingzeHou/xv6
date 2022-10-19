@@ -10,15 +10,15 @@
 
 int sys_settickets(void)
 {
-  int ticketnum;
-  if(argint(0, &ticketnum) != 0 || ticketnum != 1) {
+  int priority;
+  if(argint(0, &priority) != 0 || priority != 1) {
     return -1;
   }
 
   struct proc *proc = myproc();
-  proc->ticketnum = ticketnum;
+  proc->priority = priority;
   acquire(&ptable.lock);
-  ptable.proc[proc-ptable.proc].ticketnum = ticketnum;
+  ptable.proc[proc-ptable.proc].priority = priority;
   release(&ptable.lock);
   return 0;
 }
@@ -39,7 +39,7 @@ int sys_getpinfo(void)
     {
       procstat->inuse[ind] = 1;
       procstat->pid[ind] = p->pid;
-      procstat->tickets[ind] = p->ticketnum;
+      procstat->tickets[ind] = p->priority;
       procstat->ticks[ind] = p->ticks;
     }
     ind++;

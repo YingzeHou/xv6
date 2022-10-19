@@ -196,7 +196,8 @@ fork(void)
     np->state = UNUSED;
     return -1;
   }
-  np->ticketnum = curproc->ticketnum;
+
+  np->priority = curproc->priority;
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;

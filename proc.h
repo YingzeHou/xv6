@@ -50,7 +50,7 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
-  int priority;               // Addition ticket number for lottery scheduler 
+  int priority;                // Addition priority for scheduler 
   int ticks;                   // The number of ticks this process has accumulated 
 };
 
@@ -59,11 +59,11 @@ struct proc {
 //   struct proc proc[NPROC];
 // } ptable;
 
-struct ptable {
-  struct spinlock lock;
-  struct proc proc[NPROC];
-};
-extern struct ptable ptable; // Declare the public ptable.
+// struct ptable {
+//   struct spinlock lock;
+//   struct proc proc[NPROC];
+// };
+// extern struct ptable ptable; // Declare the public ptable.
 
 // Process memory is laid out contiguously, low addresses first:
 //   text

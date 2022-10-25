@@ -182,6 +182,8 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_testnull\
+	_spin\
+	_settickettest
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

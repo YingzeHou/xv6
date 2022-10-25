@@ -11,41 +11,27 @@
 int sys_settickets(void)
 {
   int priority;
-  if(argint(0, &priority) != 0 || priority != 1) {
+  if(argint(0, &priority)<0) 
+  {
+    return -1;
+  }
+  if(priority != 1 && priority != 0)
+  {
     return -1;
   }
 
-  struct proc *proc = myproc();
-  proc->priority = priority;
-  acquire(&ptable.lock);
-  ptable.proc[proc-ptable.proc].priority = priority;
-  release(&ptable.lock);
-  return 0;
+  return settickets(priority);
 }
 
 int sys_getpinfo(void)
 {
-  acquire(&ptable.lock);
-  struct pstat *procstat;
-  struct proc *p;
-
-  if( argptr(0, (void*)&procstat, sizeof(*procstat) ) < 0) 
-    return -1;
-
-  int ind = 0;
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  struct pstat* procstat;
+  if(argptr(0, (void*)&procstat, sizeof(*procstat) ) < 0)
   {
-    if(p->state != UNUSED)
-    {
-      procstat->inuse[ind] = 1;
-      procstat->pid[ind] = p->pid;
-      procstat->tickets[ind] = p->priority;
-      procstat->ticks[ind] = p->ticks;
-    }
-    ind++;
-  }
-  release(&ptable.lock);
-  return 0;
+    return -1;
+  } 
+
+  return getpinfo(procstat);
 }
 
 int

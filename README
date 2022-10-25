@@ -1,3 +1,17 @@
+[What I did Section]
+1. Scheduler Part:
+First, add corresponding system calls and user calls to the correct files. 
+Logic for settickets: pass in a priority 1/0, validate, assign to the process struct field.
+Logic for getpinfo: Iterate through the ptable, extract corresponding fields to assign to pstat struct
+Change scheduler() to check for high priority proc first, if no high priority proc, iterate to find the low priority proc to run.
+
+2. Null Dereference
+Make sz entry point to be PGSIZE instead of 0, make copynvm from PGSIZE instead of from 0, change Makefile to make the entry point to be 0x1000 instead of 0
+
+3. mprotect and munprotect
+Need to be done in vm.c since functions to get pte from pd is here. 
+Do validation first, then get pte for corresponding address and length, set or clear the write bit, and finally reflect the change in register via lcr3
+
 NOTE: we have stopped maintaining the x86 version of xv6, and switched
 our efforts to the RISC-V version
 (https://github.com/mit-pdos/xv6-riscv.git)
